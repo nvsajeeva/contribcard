@@ -1,3 +1,9 @@
+.embedCard {
+  background-color: transparent !important;
+  border: none !important;
+  box-shadow: none !important;
+  padding: 0.75rem;
+}
 .title {
   color: var(--mid-gray);
   font-weight: 600;

@@ -60,7 +60,11 @@ const ContributionKindIcon = (props: Props): JSXElement => {
   );
 };
 
-const ContributorCard = () => {
+interface ContributorCardProps {
+  embedMode?: boolean;
+}
+
+const ContributorCard = ({ embedMode = false }: ContributorCardProps) => {
   const location = useLocation();
   const params = useParams();
   const [contributor, setContributor] = createSignal<Contributor | null | undefined>();
@@ -220,7 +224,11 @@ const ContributorCard = () => {
 
         <div class="mt-4">
           <div class={`text-muted text-uppercase ${styles.generalTitle}`}>First contribution</div>
-          <ExternalLink class={`mt-2 ${styles.card}`} href={getFirstContributionLink()} underlined={false}>
+          <ExternalLink
+            class={`mt-2 ${styles.card} ${embedMode ? styles.embedCard : ''}`}
+            href={getFirstContributionLink()}
+            underlined={false}
+          >
             <div class="d-flex flex-row align-items-top">
               <div class={`pe-2 text-muted ${styles.contribIcon}`}>
                 <ContributionKindIcon kind={contributor()!.first_contribution.kind} />
@@ -240,17 +248,13 @@ const ContributorCard = () => {
           </ExternalLink>
 
           <div class="mt-4">
-            <div class={`text-muted text-uppercase ${styles.generalTitle}`}>
-              Years contributing ({contributor()!.years.length})
-            </div>
-            <Badges items={contributor()!.years} sorted />
+            <div class={`text-muted text-uppercase ${styles.generalTitle}`}>Years contributing ({contributor()!.years.length})</div>
+            <Badges items={contributor()!.years} sorted embedMode={embedMode} />
           </div>
 
           <div class="mt-4">
-            <div class={`text-muted text-uppercase ${styles.generalTitle}`}>
-              Repositories ({contributor()!.repositories.length})
-            </div>
-            <Badges items={contributor()!.repositories} withTitle />
+            <div class={`text-muted text-uppercase ${styles.generalTitle}`}>Repositories ({contributor()!.repositories.length})</div>
+            <Badges items={contributor()!.repositories} withTitle embedMode={embedMode} />
           </div>
 
           <div class={`pt-0 pt-md-3 ${styles.buttons}`}>
